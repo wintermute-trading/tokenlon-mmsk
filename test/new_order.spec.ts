@@ -26,7 +26,7 @@ describe('NewOrder', function () {
       exchangeContractAddress: '0x30589010550762d2f0d06f650d8e8b6ade6dbf4b',
       userProxyContractAddress: '0x25657705a6be20511687d483f2fccfb2d92f6033',
       wethContractAddress: '0xd0a1e359811322d97991e03f863a0c30c2cf029c',
-      orderExpirationSeconds: 600,
+      orderExpirationSeconds: 180,
       feeFactor: 30,
       addressBookV5: {
         Tokenlon: '0xF1eC89551112da48C3b43B5a167AF0b2a7Cc2614',

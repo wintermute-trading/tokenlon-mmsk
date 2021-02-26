@@ -135,9 +135,11 @@ function getOrderAndFeeFactor(simpleOrder, rate, tokenList, tokenConfigs, config
 
     senderAddress: config.tokenlonExchangeContractAddress.toLowerCase(),
     feeRecipientAddress: FEE_RECIPIENT_ADDRESS,
-    expirationTimeSeconds: toBN(getTimestamp() + +config.orderExpirationSeconds),
+    expirationTimeSeconds: toBN(getTimestamp() + 180), // hardcoded to 3mins
     exchangeAddress: config.exchangeContractAddress,
   }
+  console.log('*** TokenLon new order ***');
+  console.table(order); // for audit
 
   return {
     order,
