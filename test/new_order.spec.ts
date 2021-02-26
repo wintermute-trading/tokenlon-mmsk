@@ -26,7 +26,7 @@ describe('NewOrder', function () {
       exchangeContractAddress: '0x30589010550762d2f0d06f650d8e8b6ade6dbf4b',
       userProxyContractAddress: '0x25657705a6be20511687d483f2fccfb2d92f6033',
       wethContractAddress: '0xd0a1e359811322d97991e03f863a0c30c2cf029c',
-      orderExpirationSeconds: 180,
+      orderExpirationSeconds: 600,
       feeFactor: 30,
       addressBookV5: {
         Tokenlon: '0xF1eC89551112da48C3b43B5a167AF0b2a7Cc2614',
@@ -276,6 +276,37 @@ describe('NewOrder', function () {
         signedOrderResp.order.makerAssetAmount,
         utils.parseUnits('0.12221', 6).toString()
       )
+    })
+
+    it('should set expirationTimeSeconds to 180 if config.orderExpirationSeconds is higher', async function () {
+      const signedOrderResp = await newOrder({
+        signer: Wallet.createRandom(),
+        quoter: {
+          getPrice: () => {
+            return Promise.resolve({
+              result: true,
+              exchangeable: true,
+              minAmount: 0,
+              maxAmount: 1000,
+              price: 1.1,
+              quoteId: 'echo-testing-8888',
+            })
+          },
+        },
+        query: {
+          base: 'ETH',
+          quote: 'USDT',
+          side: 'SELL',
+          amount: 0.1111,
+          uniqId: 'testing-1111',
+          userAddr: Wallet.createRandom().address.toLowerCase(),
+          protocol: Protocol.PMMV5,
+        },
+      })
+
+      assert(signedOrderResp)
+      assert.equal(signedOrderResp.order.expirationTimeSeconds, 180) // config.orderExpirationSeconds set to 600
+      
     })
   })
 })
